@@ -1453,8 +1453,8 @@ You should create a new class to encapsulate the response.
             final conType = contentType == null
                 ? ""
                 : 'contentType: MediaType.parse(${literal(contentType)}),';
-            blocks
-                .add(refer(_dataVar).property('files').property("addAll").call([
+            var returnCode =
+                refer(_dataVar).property('files').property("addAll").call([
               refer(''' 
                   ${p.displayName}.map((i) => MapEntry(
                 '${fieldName}',
@@ -1463,7 +1463,15 @@ You should create a new class to encapsulate the response.
                     ${conType}
                     )))
                   ''')
-            ]).statement);
+            ]).statement;
+            if (p.type.isNullable) {
+              final condition =
+                  refer(p.displayName).notEqualTo(literalNull).code;
+              blocks.addAll(
+                  [Code("if("), condition, Code(") {"), returnCode, Code("}")]);
+            } else {
+              blocks.add(returnCode);
+            }
           } else if (_isBasicType(innerType) ||
               ((innerType != null) &&
                   (_typeChecker(Map).isExactlyType(innerType) ||
