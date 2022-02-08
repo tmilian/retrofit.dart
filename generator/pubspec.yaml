@@ -14,12 +14,15 @@ dependencies:
   built_collection: ^5.0.0
   code_builder: ^4.0.0
   tuple: ^2.0.0
-  retrofit:
-    path: ../retrofit
   analyzer: ^3.0.0
   dart_style: ^2.0.1
   build: ^2.0.1
-
+  retrofit:
+    git:
+      url: git@github.com:tmilian/retrofit.dart.git
+      ref: master
+      path: retrofit
+    
 dev_dependencies:
   test: ^1.17.10
   source_gen_test: ^1.0.0
