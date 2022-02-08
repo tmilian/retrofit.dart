@@ -1558,6 +1558,15 @@ You should create a new class to encapsulate the response.
           final ele = p.type.element as ClassElement;
           if (_missingToJson(ele)) {
             throw Exception("toJson() method have to add to ${p.type}");
+          } else if (_displayString(p.type) == "DateTime") {
+            blocks.add(refer(_dataVar).property('fields').property("add").call([
+              refer("MapEntry").newInstance([
+                literal(fieldName),
+                p.type.nullabilitySuffix == NullabilitySuffix.question
+                    ? refer(p.displayName).nullSafeProperty('toJson').call([])
+                    : refer(p.displayName).property('toJson').call([])
+              ])
+            ]).statement);
           } else {
             blocks.add(refer(_dataVar).property('fields').property("add").call([
               refer("MapEntry").newInstance([
