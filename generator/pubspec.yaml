@@ -19,7 +19,7 @@ dependencies:
   build: ^2.0.1
   retrofit:
     git:
-      url: git@github.com:tmilian/retrofit.dart.git
+      url: https://github.com/tmilian/retrofit.dart.git
       ref: master
       path: retrofit
     
